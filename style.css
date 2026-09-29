@@ -1588,3 +1588,507 @@ footer {
     }
 
 }
+
+/* =========================
+   BOOKING CONFIRMATION
+========================= */
+
+.booking-confirmation {
+    display: none;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 35px 25px;
+    text-align: center;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.confirmation-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #16a34a;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.booking-confirmation h2 {
+    color: #172554;
+    margin-bottom: 10px;
+}
+
+.booking-reference {
+    margin: 25px 0;
+    padding: 18px;
+    background-color: #f8fafc;
+    border-radius: 10px;
+}
+
+.booking-reference span {
+    display: block;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.booking-reference strong {
+    color: #172554;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+#confirmation-total {
+    color: #172554;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#whatsapp-button,
+#new-booking-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#whatsapp-button {
+    background-color: #16a34a;
+    color: white;
+}
+
+#new-booking-button {
+    background-color: #172554;
+    color: white;
+}
+
+/* =========================
+   BOOKING CONFIRMATION PAGE
+========================= */
+
+.booking-confirmation {
+    display: none;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 35px 25px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.confirmation-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #16a34a;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.booking-confirmation h2 {
+    color: #172554;
+    margin-bottom: 10px;
+}
+
+.booking-reference {
+    margin: 25px 0;
+    padding: 18px;
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+}
+
+.booking-reference span {
+    display: block;
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.booking-reference strong {
+    color: #172554;
+    font-size: 24px;
+    letter-spacing: 1.5px;
+}
+
+#confirmation-total {
+    color: #172554;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#whatsapp-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #16a34a;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#whatsapp-button:hover {
+    background-color: #15803d;
+}
+
+#new-booking-button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #172554;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#new-booking-button:hover {
+    background-color: #f1f5f9;
+}
+
+/* =========================
+   TRACK ORDER SECTION
+========================= */
+
+#track-order {
+    background-color: #172554;
+    padding: 80px 8%;
+}
+
+.tracker-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.tracker-input-group {
+    display: flex;
+    gap: 15px;
+}
+
+.tracker-input-group input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid #172554;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.tracker-input-group button {
+    padding: 14px 28px;
+    background-color: #172554;
+    color: yellow;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.tracker-input-group button:hover {
+    background-color: #1d4ed8;
+}
+
+.tracker-result {
+    display: none;
+    margin-top: 35px;
+    padding-top: 25px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.order-info-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.order-info-header h3 {
+    color: #172554;
+    font-size: 20px;
+}
+
+.order-info-header p {
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.status-steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: center;
+}
+
+.step-item {
+    flex: 1;
+    padding: 15px 10px;
+    background-color: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.step-item.active {
+    opacity: 1;
+    border-color: #1d4ed8;
+    background-color: #eff6ff;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+}
+
+.step-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.step-item p {
+    font-size: 13px;
+    font-weight: bold;
+    color: #172554;
+    margin: 0;
+}
+
+.tracker-error-msg {
+    color: #dc2626;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .tracker-input-group {
+        flex-direction: column;
+    }
+    
+    .status-steps {
+        grid-template-columns: repeat(2, 1fr);
+        display: grid;
+    }
+}
+
+/* =========================
+   ADMIN DASHBOARD SECTION
+========================= */
+
+#admin-dashboard {
+    background-color: #f8fafc;
+    padding: 80px 8%;
+}
+
+.admin-card {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: #eff6ff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #bfdbfe;
+    text-align: center;
+}
+
+.stat-box h3 {
+    color: #1d4ed8;
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.stat-box p {
+    color: #475569;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.admin-table th {
+    background-color: #f1f5f9;
+    color: #172554;
+    font-weight: bold;
+}
+
+.status-select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 13px;
+    background-color: #ffffff;
+}
+
+.delete-btn {
+    padding: 6px 12px;
+    background-color: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #dc2626;
+}
+
+/* =========================
+   PHASE 4: AUTH & EXPORT
+========================= */
+
+.login-input-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-input-group input {
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 60%;
+}
+
+.login-input-group button {
+    padding: 12px 20px;
+    background-color: #172554;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.admin-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.logout-btn {
+    background-color: #64748b;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.export-btn {
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.export-btn:hover {
+    background-color: #15803d;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* PAYMENT SELECTION STYLING */
+.momo-box {
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    color: #92400e;
+}
+
+.momo-box h4 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.momo-box ul {
+    margin: 5px 0 10px 20px;
+    padding: 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-cash {
+    background-color: #e2e8f0;
+    color: #334155;
+}
+
+.badge-momo {
+    background-color: #dcfce7;
+    color: #166534;
+}
