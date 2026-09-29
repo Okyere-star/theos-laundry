@@ -448,3 +448,23 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// 1. Generate Barcode for Customer Orders
+function generateOrderBarcode(orderId) {
+  JsBarcode("#order-barcode", orderId, {
+    format: "CODE128",
+    lineColor: "#0f172a",
+    width: 2,
+    height: 60,
+    displayValue: true
+  });
+}
+
+// 2. Start Camera Scanner for Admin
+function startAdminScanner() {
+  const scanner = new Html5QrcodeScanner("interactive-reader", { fps: 10, qrbox: 250 });
+  scanner.render((scannedCode) => {
+    alert("Scanned Barcode: " + scannedCode);
+    scanner.clear();
+  });
+}
