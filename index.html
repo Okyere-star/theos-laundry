@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>THEOS LAUNDRY | Professional Laundry and Garment Care</title>
+
+    <!-- PWA App Manifest -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Barcode & QR Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 
 <body> 
@@ -560,6 +569,16 @@
     </footer>
 
     <button id="back-to-top" title="Back to top">↑</button>
+
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('PWA Service Worker Registered!'))
+        .catch(err => console.error('PWA Registration Failed:', err));
+    });
+  }
+</script>
 
     <script src="script.js" defer></script>
 </body>
