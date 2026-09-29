@@ -4,18 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <title>THEOS LAUNDRY | Professional Laundry and Garment Care</title>
 
-    <!-- PWA App Manifest -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-<meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="style.css">
 
-<!-- Barcode & QR Libraries -->
-<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-<script src="https://unpkg.com/html5-qrcode"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+        <meta name="description" content="Convenient laundry services with pickup and delivery around campus.">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#172554">
+    <link rel="icon" type="image/png" href="icons/favicon-48.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="THEOS">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    
+
 </head>
 
 <body> 
@@ -569,17 +574,20 @@
     </footer>
 
     <button id="back-to-top" title="Back to top">↑</button>
+    <!-- INSTALL APP BANNER -->
+    <div id="install-banner" class="install-banner" style="display: none;">
+        <img src="icons/icon-192.png" alt="" width="44" height="44">
+        <div class="install-text">
+            <strong>Get the THEOS LAUNDRY app</strong>
+            <span id="install-ios-tip" style="display: none;">Tap the Share button, then "Add to Home Screen".</span>
+            <span>Book and track your laundry faster.</span>
+        </div>
+        <button id="install-btn" type="button">Install</button>
+        <button id="install-close" type="button" aria-label="Dismiss">&times;</button>
+    </div>
 
-    <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('PWA Service Worker Registered!'))
-        .catch(err => console.error('PWA Registration Failed:', err));
-    });
-  }
-</script>
-
+    <script src="pwa.js" defer></script>
+    
     <script src="script.js" defer></script>
 </body>
 </html>
