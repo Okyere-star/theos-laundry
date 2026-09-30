@@ -69,7 +69,8 @@
 
             <div class="tracker-card">
                 <div class="tracker-input-group">
-                    <input type="text" id="track-input" placeholder="e.g. THEOS-20260929-1234">
+                    <label for="track-input" class="sr-only" style="display:none;">Order Reference</label>
+                    <input type="text" id="track-input" name="track_input" placeholder="e.g. THEOS-20260929-1234">
                     <button id="track-btn" type="button">Track Order</button>
                 </div>
 
@@ -297,27 +298,27 @@
             <!-- BOOKING FORM -->
             <form id="booking-form">
                 <label for="name">FULL NAME</label>
-                <input type="text" id="name" placeholder="Enter your full name" required>
+                <input type="text" id="name" name="full_name" placeholder="Enter your full name" required>
 
                 <label for="phone">PHONE NUMBER</label>
-                <input type="tel" id="phone" placeholder="e.g. 0240000000" required>
+                <input type="tel" id="phone" name="phone_number" placeholder="e.g. 0240000000" required>
 
-                <label>Select Services & Quantities</label>
+                <p style="font-weight: bold; margin-bottom: 12px; color: #172554;">Select Services & Quantities</p>
 
                 <div class="service-options">
                     <div class="service-category">
                         <h3>Washing</h3>
                         <div class="service-item">
                             <label for="washing-shirts">Shirts / T-shirts (GH₵4)</label>
-                            <input type="number" id="washing-shirts" class="quantity" data-price="4" min="0" value="0">
+                            <input type="number" id="washing-shirts" name="washing_shirts" class="quantity" data-price="4" min="0" value="0">
                         </div>
                         <div class="service-item">
                             <label for="washing-trousers">Trousers / Jeans (GH₵6)</label>
-                            <input type="number" id="washing-trousers" class="quantity" data-price="6" min="0" value="0">
+                            <input type="number" id="washing-trousers" name="washing_trousers" class="quantity" data-price="6" min="0" value="0">
                         </div>
                         <div class="service-item">
                             <label for="washing-towels">Towels (GH₵8)</label>
-                            <input type="number" id="washing-towels" class="quantity" data-price="8" min="0" value="0">
+                            <input type="number" id="washing-towels" name="washing_towels" class="quantity" data-price="8" min="0" value="0">
                         </div>
                     </div>
 
@@ -325,11 +326,11 @@
                         <h3>Ironing</h3>
                         <div class="service-item">
                             <label for="ironing-shirts">Shirts (GH₵5)</label>
-                            <input type="number" id="ironing-shirts" class="quantity" data-price="5" min="0" value="0">
+                            <input type="number" id="ironing-shirts" name="ironing_shirts" class="quantity" data-price="5" min="0" value="0">
                         </div>
                         <div class="service-item">
                             <label for="ironing-trousers">Trousers (GH₵3)</label>
-                            <input type="number" id="ironing-trousers" class="quantity" data-price="3" min="0" value="0">
+                            <input type="number" id="ironing-trousers" name="ironing_trousers" class="quantity" data-price="3" min="0" value="0">
                         </div>
                     </div>
 
@@ -337,11 +338,11 @@
                         <h3>Bedding</h3>
                         <div class="service-item">
                             <label for="bedsheets">Bedsheets (GH₵15)</label>
-                            <input type="number" id="bedsheets" class="quantity" data-price="15" min="0" value="0">
+                            <input type="number" id="bedsheets" name="bedsheets" class="quantity" data-price="15" min="0" value="0">
                         </div>
                         <div class="service-item">
                             <label for="duvet">Duvet (GH₵20)</label>
-                            <input type="number" id="duvet" class="quantity" data-price="20" min="0" value="0">
+                            <input type="number" id="duvet" name="duvet" class="quantity" data-price="20" min="0" value="0">
                         </div>
                     </div>
 
@@ -349,7 +350,7 @@
                         <h3>Shoe Cleaning</h3>
                         <div class="service-item">
                             <label for="shoes">Shoes per pair (GH₵15)</label>
-                            <input type="number" id="shoes" class="quantity" data-price="15" min="0" value="0">
+                            <input type="number" id="shoes" name="shoes" class="quantity" data-price="15" min="0" value="0">
                         </div>
                     </div>
 
@@ -357,7 +358,7 @@
                         <h3>Pickup & Delivery</h3>
                         <div class="service-item">
                             <label for="pickup">Campus & Surroundings (GH₵15)</label>
-                            <input type="number" id="pickup" class="quantity" data-price="15" min="0" value="0">
+                            <input type="number" id="pickup" name="pickup" class="quantity" data-price="15" min="0" value="0">
                         </div>
                     </div>
                 </div>
@@ -370,20 +371,20 @@
                 <br>
 
                 <label for="location">Pickup Location</label>
-                <input type="text" id="location" placeholder="e.g. Hall 7 / Bomso" required>
+                <input type="text" id="location" name="location" placeholder="e.g. Hall 7 / Bomso" required>
 
                 <label for="pickup-date">Preferred Pickup Date</label>
-                <input type="date" id="pickup-date" required>
+                <input type="date" id="pickup-date" name="pickup_date" required>
 
                 <label for="pickup-time">Preferred Pickup Time</label>
-                <input type="time" id="pickup-time" required>
+                <input type="time" id="pickup-time" name="pickup_time" required>
 
                 <label for="message">Additional Instructions (Optional)</label>
-                <textarea id="message" rows="4" placeholder="Any special instructions for your laundry..."></textarea>
+                <textarea id="message" name="message" rows="4" placeholder="Any special instructions for your laundry..."></textarea>
 
                 <div class="form-group">
                     <label for="payment-method">Payment Method:</label>
-                    <select id="payment-method" required>
+                    <select id="payment-method" name="payment_method" required>
                         <option value="" disabled selected>Select Payment Option</option>
                         <option value="Cash">Cash on Pickup / Delivery</option>
                         <option value="MoMo">Mobile Money (MTN / Telecel / AT)</option>
@@ -400,7 +401,7 @@
                     </ul>
                     <div class="form-group" style="margin-top: 10px;">
                         <label for="momo-tx-id">Transaction ID / Reference (Optional):</label>
-                        <input type="text" id="momo-tx-id" placeholder="e.g. 23849102834">
+                        <input type="text" id="momo-tx-id" name="momo_tx_id" placeholder="e.g. 23849102834">
                     </div>
                 </div>
 
@@ -478,7 +479,8 @@
                 <h3>🔒 Admin Authentication</h3>
                 <p>Enter your PIN to access order management:</p>
                 <div class="login-input-group">
-                    <input type="password" id="admin-pin-input" placeholder="Enter PIN">
+                    <label for="admin-pin-input" class="sr-only" style="display:none;">Admin PIN</label>
+                    <input type="password" id="admin-pin-input" name="admin_pin" placeholder="Enter PIN">
                     <button id="admin-login-btn" type="button">Unlock Dashboard</button>
                 </div>
                 <p id="admin-login-error" class="tracker-error-msg"></p>
