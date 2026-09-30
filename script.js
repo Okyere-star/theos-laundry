@@ -427,25 +427,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Initialize Auth Check
-    checkAdminAuth();
-
-    // ----------------------------------------------------
-    // 5. NAVIGATION & UI CONTROLS
-    // ----------------------------------------------------
-    if (menuToggle && nav) {
-        menuToggle.addEventListener("click", function () {
-            nav.classList.toggle("active");
-        });
-    }
-
-    if (backToTop) {
-        window.addEventListener("scroll", function () {
-            backToTop.style.display = window.scrollY > 400 ? "block" : "none";
-        });
-        backToTop.addEventListener("click", function () {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        });
-    }
-});
-
+    // Register THEOS LAUNDRY Service Worker
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => {
+                console.log("THEOS LAUNDRY app is ready!");
+            })
+            .catch(error => {
+                console.log("Service Worker registration failed:", error);
+            });
+    });
+}
