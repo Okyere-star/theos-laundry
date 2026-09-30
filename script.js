@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // DOM Elements - Navigation & Misc
     const menuToggle = document.getElementById("menu-toggle");
-    const nav = document.querySelector("nav");
+    const nav = document.getElementById("navbar");
     const backToTop = document.getElementById("back-to-top");
 
     // DOM Elements - Tracking
@@ -50,6 +50,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const exportCsvBtn = document.getElementById("export-csv-btn");
 
     let currentWhatsappURL = "";
+
+    // ----------------------------------------------------
+    // 0. MOBILE MENU & BACK TO TOP LOGIC
+    // ----------------------------------------------------
+    if (menuToggle && nav) {
+        menuToggle.addEventListener("click", function () {
+            nav.classList.toggle("active");
+        });
+
+        nav.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                nav.classList.remove("active");
+            });
+        });
+    }
+
+    if (backToTop) {
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                backToTop.style.display = "block";
+            } else {
+                backToTop.style.display = "none";
+            }
+        });
+
+        backToTop.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    }
 
     // ----------------------------------------------------
     // 1. HELPER FUNCTIONS
@@ -368,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (statActive) statActive.textContent = activeCount;
         if (statRevenue) statRevenue.textContent = `GH₵${totalRevenue.toFixed(2)}`;
 
-        // Event Listeners for Dynamic Status Selects
+        // Event Listeners for Status Selects
         document.querySelectorAll(".status-select").forEach(select => {
             select.addEventListener("change", function () {
                 const ref = this.dataset.ref;
@@ -383,7 +412,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        // Event Listeners for Dynamic Delete Buttons
+        // Event Listeners for Delete Buttons
         document.querySelectorAll(".delete-btn").forEach(btn => {
             btn.addEventListener("click", function () {
                 const ref = this.dataset.ref;
@@ -427,15 +456,65 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Register THEOS LAUNDRY Service Worker
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js")
-            .then(() => {
-                console.log("THEOS LAUNDRY app is ready!");
-            })
-            .catch(error => {
-                console.log("Service Worker registration failed:", error);
-            });
+    // Check Admin status on startup
+    checkAdminAuth();
+
+    // ----------------------------------------------------
+    // 5. PWA & SERVICE WORKER INSTALLATION HANDLER
+    // ----------------------------------------------------
+    let deferredPrompt;
+    const installBanner = document.getElementById("install-banner");
+    const installBtn = document.getElementById("install-btn");
+    const installClose = document.getElementById("install-close");
+    const installIosTip = document.getElementById("install-ios-tip");
+    const installAppTip = document.getElementById("install-app-tip");
+
+    const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent.toLowerCase());
+    const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
+
+    // Register Service Worker
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./service-worker.js")
+                .then(reg => console.log("Service Worker registered successfully:", reg.scope))
+                .catch(err => console.error("Service Worker registration failed:", err));
+        });
+    }
+
+    // Handle BeforeInstallPrompt (Android / Chrome / Edge)
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBanner) installBanner.style.display = "flex";
     });
-}
+
+    // iOS Detection
+    if (isIos && !isInStandaloneMode) {
+        if (installBanner) {
+            installBanner.style.display = "flex";
+            if (installBtn) installBtn.style.display = "none";
+            if (installIosTip) installIosTip.style.display = "inline";
+            if (installAppTip) installAppTip.style.display = "none";
+        }
+    }
+
+    if (installBtn) {
+        installBtn.addEventListener("click", async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === "accepted") {
+                    console.log("User accepted PWA installation");
+                }
+                deferredPrompt = null;
+                if (installBanner) installBanner.style.display = "none";
+            }
+        });
+    }
+
+    if (installClose) {
+        installClose.addEventListener("click", () => {
+            if (installBanner) installBanner.style.display = "none";
+        });
+    }
+});
