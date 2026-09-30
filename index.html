@@ -6,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THEOS LAUNDRY | Professional Laundry and Garment Care</title>
 
+    <!-- PWA & Mobile App Meta Tags -->
+    <meta name="theme-color" content="#172554">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="THEOS LAUNDRY">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- CSS Stylesheets -->
     <link rel="stylesheet" href="style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-   <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#172554"> 
-
 </head>
 
 <body> 
@@ -25,7 +30,7 @@
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <nav>
+        <nav id="navbar">
             <a href="#home">Home</a>
             <a href="#track-order">Track Order</a>
             <a href="#services">Services</a>
@@ -65,7 +70,7 @@
             <div class="tracker-card">
                 <div class="tracker-input-group">
                     <input type="text" id="track-input" placeholder="e.g. THEOS-20260929-1234">
-                    <button id="track-btn">Track Order</button>
+                    <button id="track-btn" type="button">Track Order</button>
                 </div>
 
                 <!-- TRACKER RESULT DISPLAY -->
@@ -415,11 +420,11 @@
 
                 <p id="confirmation-total"></p>
 
-                <button id="whatsapp-button">
+                <button id="whatsapp-button" type="button">
                     <i class="fa-brands fa-whatsapp"></i> Send Booking on WhatsApp
                 </button>
 
-                <button id="new-booking-button">Make Another Booking</button>
+                <button id="new-booking-button" type="button">Make Another Booking</button>
             </div>
         </section>
 
@@ -443,7 +448,7 @@
                     <div class="contact-icon">💬</div>
                     <h3>WhatsApp</h3>
                     <p>Send us a message on WhatsApp.</p>
-                    <a href="https://wa.me/233540807941" target="_blank">Chat on WhatsApp</a>
+                    <a href="https://wa.me/233540807941" target="_blank" rel="noopener">Chat on WhatsApp</a>
                 </div>
 
                 <div class="contact-card">
@@ -474,7 +479,7 @@
                 <p>Enter your PIN to access order management:</p>
                 <div class="login-input-group">
                     <input type="password" id="admin-pin-input" placeholder="Enter PIN">
-                    <button id="admin-login-btn">Unlock Dashboard</button>
+                    <button id="admin-login-btn" type="button">Unlock Dashboard</button>
                 </div>
                 <p id="admin-login-error" class="tracker-error-msg"></p>
             </div>
@@ -483,10 +488,10 @@
             <div id="admin-content-card" class="admin-card" style="display: none;">
                 <div class="admin-header-actions">
                     <div>
-                        <button id="admin-logout-btn" class="logout-btn">🔒 Lock Dashboard</button>
+                        <button id="admin-logout-btn" class="logout-btn" type="button">🔒 Lock Dashboard</button>
                     </div>
                     <div>
-                        <button id="export-csv-btn" class="export-btn">📥 Export Orders (CSV)</button>
+                        <button id="export-csv-btn" class="export-btn" type="button">📥 Export Orders (CSV)</button>
                     </div>
                 </div>
 
@@ -565,21 +570,22 @@
         </div>
     </footer>
 
-    <button id="back-to-top" title="Back to top">↑</button>
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" title="Back to top" type="button">↑</button>
+
     <!-- INSTALL APP BANNER -->
     <div id="install-banner" class="install-banner" style="display: none;">
-        <img src="icons/icon-192.png" alt="" width="44" height="44">
+        <img src="icons/icon-192.png" alt="App Icon" width="44" height="44">
         <div class="install-text">
             <strong>Get the THEOS LAUNDRY app</strong>
             <span id="install-ios-tip" style="display: none;">Tap the Share button, then "Add to Home Screen".</span>
-            <span>Book and track your laundry faster.</span>
+            <span id="install-app-tip">Book and track your laundry faster.</span>
         </div>
         <button id="install-btn" type="button">Install</button>
         <button id="install-close" type="button" aria-label="Dismiss">&times;</button>
     </div>
 
-    <script src="pwa.js" defer></script>
-
+    <!-- JavaScript Files -->
     <script src="script.js" defer></script>
 </body>
 </html>
