@@ -2,7 +2,7 @@
     "name": "THEOS LAUNDRY",
     "short_name": "THEOS",
     "description": "Convenient laundry services with pickup and delivery.",
-    "start_url": "/theos-laundry/",
+    "start_url": "./",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#172554",
