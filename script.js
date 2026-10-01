@@ -519,37 +519,66 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// =========================
-// CUSTOMER REVIEW RATING
-// =========================
+// 1. Function to redirect/scroll to the review form when clicked
+function goToReviewForm() {
+  const targetSection = document.getElementById('reviewFormSection');
+  const nameInput = document.getElementById('reviewerName');
 
-const ratingStars = document.querySelectorAll(".star-rating button");
-const ratingInput = document.getElementById("review-rating");
+  if (targetSection) {
+    // Smooth scroll down to the review form
+    targetSection.scrollIntoView({ behavior: 'smooth' });
+    
+    // Focus on the name field after scrolling starts
+    setTimeout(() => {
+      nameInput.focus();
+    }, 500);
+  }
+}
 
-ratingStars.forEach(star => {
+// 2. Dynamic handling when a new review is submitted
+document.getElementById('laundryReviewForm').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-    star.addEventListener("click", () => {
+  const name = document.getElementById('reviewerName').value.trim();
+  const ratingVal = document.getElementById('ratingSelect').value;
+  const comments = document.getElementById('reviewComments').value.trim();
 
-        const selectedRating = Number(
-            star.getAttribute("data-rating")
-        );
+  if (!name || !comments) return;
 
-        ratingInput.value = selectedRating;
+  // Build star representation
+  const starString = '★'.repeat(ratingVal) + '☆'.repeat(5 - ratingVal);
 
-        ratingStars.forEach(item => {
+  // Dynamically create a new card element
+  const newCard = document.createElement('div');
+  newCard.className = 'review-card clickable-card';
+  newCard.onclick = goToReviewForm;
+  newCard.innerHTML = `
+    <div class="card-header">
+      <span class="customer-name">${escapeHtml(name)}</span>
+      <span class="badge">Verified Customer</span>
+    </div>
+    <div class="stars">${starString}</div>
+    <p class="review-text">"${escapeHtml(comments)}"</p>
+    <div class="card-action">Tap to leave your review →</div>
+  `;
 
-            const itemRating = Number(
-                item.getAttribute("data-rating")
-            );
+  // Prepend new review so all visitors see it at the top
+  const grid = document.querySelector('.reviews-grid');
+  grid.prepend(newCard);
 
-            if (itemRating <= selectedRating) {
-                item.classList.add("selected");
-            } else {
-                item.classList.remove("selected");
-            }
+  // Reset form & show notification
+  this.reset();
+  const alertBox = document.getElementById('formSuccessAlert');
+  alertBox.style.display = 'block';
 
-        });
-
-    });
-
+  setTimeout(() => {
+    alertBox.style.display = 'none';
+  }, 4000);
 });
+
+// Helper function to sanitize user inputs
+function escapeHtml(str) {
+  const tempDiv = document.createElement('div');
+  tempDiv.innerText = str;
+  return tempDiv.innerHTML;
+}
