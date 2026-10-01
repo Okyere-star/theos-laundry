@@ -518,3 +518,38 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+// =========================
+// CUSTOMER REVIEW RATING
+// =========================
+
+const ratingStars = document.querySelectorAll(".star-rating button");
+const ratingInput = document.getElementById("review-rating");
+
+ratingStars.forEach(star => {
+
+    star.addEventListener("click", () => {
+
+        const selectedRating = Number(
+            star.getAttribute("data-rating")
+        );
+
+        ratingInput.value = selectedRating;
+
+        ratingStars.forEach(item => {
+
+            const itemRating = Number(
+                item.getAttribute("data-rating")
+            );
+
+            if (itemRating <= selectedRating) {
+                item.classList.add("selected");
+            } else {
+                item.classList.remove("selected");
+            }
+
+        });
+
+    });
+
+});
