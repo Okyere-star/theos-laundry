@@ -1352,3 +1352,112 @@ footer {
   text-align: center;
   font-weight: 600;
 }
+
+/* FAQ SECTION STYLES */
+:root {
+  --primary-blue: #007bff;
+  --dark-navy: #1a365d;
+  --text-dark: #334155;
+  --bg-light: #f8f9fa;
+  --border-color: #e2e8f0;
+}
+
+.faq-section {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 50px 20px;
+  background-color: var(--bg-light);
+}
+
+.faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-section h2 {
+  text-align: center;
+  color: var(--dark-navy);
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.faq-subtitle {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 30px;
+  font-size: 0.95rem;
+}
+
+/* Accordion Outer Container */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease;
+}
+
+.faq-item:hover {
+  border-color: var(--primary-blue);
+}
+
+/* Question Header Button */
+.faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 18px 20px;
+  text-align: left;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark-navy);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.faq-question:hover {
+  background-color: #f1f5f9;
+}
+
+.faq-icon {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--primary-blue);
+  transition: transform 0.3s ease;
+}
+
+/* Expanded Answer Panel */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-out, padding 0.35s ease;
+  padding: 0 20px;
+  background-color: #ffffff;
+}
+
+.faq-answer p {
+  margin: 0;
+  padding-bottom: 18px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Active State Styles */
+.faq-item.active .faq-icon {
+  transform: rotate(45deg); /* Rotates '+' into 'x' */
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px; /* Expands to fit content */
+  padding-top: 5px;
+}
