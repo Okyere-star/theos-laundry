@@ -494,105 +494,87 @@
             </div>
         </section>
 
-        <!-- =========================
-     CUSTOMER REVIEWS
-========================= -->
+        <!-- ====================================================
+     SECTION 1: HOMEPAGE REVIEW CARDS & CALL-TO-ACTION
+     (Visible to all website visitors)
+     ==================================================== -->
+<section class="reviews-display-section" id="reviewsDisplay">
+  <div class="reviews-container">
+    <h2>Customer Experiences at THEOS LAUNDRY</h2>
+    <p class="section-subtitle">Tap any review card or button below to share your own experience!</p>
 
-<section id="reviews">
-
-    <div class="section-heading">
-
-        <p>WHAT OUR CUSTOMERS SAY</p>
-
-        <h2>Customer Reviews</h2>
-
-        <p>
-            Your feedback helps us improve our service.
-            Share your experience with THEOS LAUNDRY.
-        </p>
-
-    </div>
-
-
-    <div class="review-form-container">
-
-        <form id="review-form">
-
-            <div class="form-group">
-
-                <label for="review-name">
-                    Your Name
-                </label>
-
-                <input
-                    type="text"
-                    id="review-name"
-                    placeholder="Enter your name"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Your Rating
-                </label>
-
-                <div class="star-rating">
-
-                    <button type="button" data-rating="1">★</button>
-                    <button type="button" data-rating="2">★</button>
-                    <button type="button" data-rating="3">★</button>
-                    <button type="button" data-rating="4">★</button>
-                    <button type="button" data-rating="5">★</button>
-
-                </div>
-
-                <input
-                    type="hidden"
-                    id="review-rating"
-                    value="0"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="review-message">
-                    Your Review
-                </label>
-
-                <textarea
-                    id="review-message"
-                    rows="5"
-                    placeholder="Tell us about your experience..."
-                    required
-                ></textarea>
-
-            </div>
-
-
-            <button type="submit" class="review-submit">
-                Submit Review
-            </button>
-
-        </form>
-
-
-        <div
-            id="review-success"
-            class="review-success"
-        >
-            ✅ Thank you for your review!
+    <!-- Tapable Review Section Container -->
+    <div class="reviews-grid">
+      
+      <!-- Review Card 1 (Clickable) -->
+      <div class="review-card clickable-card" onclick="goToReviewForm()">
+        <div class="card-header">
+          <span class="customer-name">Ama K.</span>
+          <span class="badge">Verified Customer</span>
         </div>
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"THEOS LAUNDRY has exceptional customer service! My clothes always come back fresh, stainless, and perfectly folded."</p>
+        <div class="card-action">Tap to leave your review →</div>
+      </div>
+
+      <!-- Review Card 2 (Clickable) -->
+      <div class="review-card clickable-card" onclick="goToReviewForm()">
+        <div class="card-header">
+          <span class="customer-name">Kwaku M.</span>
+          <span class="badge">Verified Customer</span>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Super quick turnaround time and very polite staff. They handle delicate fabrics with great care."</p>
+        <div class="card-action">Tap to leave your review →</div>
+      </div>
 
     </div>
 
+    <!-- CTA Button for Direct Navigation -->
+    <div style="text-align: center; margin-top: 25px;">
+      <button class="cta-review-btn" onclick="goToReviewForm()">⭐ Write a Review for THEOS LAUNDRY</button>
+    </div>
+  </div>
 </section>
+
+<!-- ====================================================
+     SECTION 2: TARGET REVIEW SUBMISSION FORM
+     (Where users are redirected when they click)
+     ==================================================== -->
+<section class="review-form-section" id="reviewFormSection">
+  <div class="form-container">
+    <h3>Leave Your Review</h3>
+    <p>Tell other customers about your experience with our laundry service.</p>
+
+    <form id="laundryReviewForm">
+      <div class="form-group">
+        <label for="reviewerName">Your Name</label>
+        <input type="text" id="reviewerName" placeholder="Enter your full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ratingSelect">Service Rating</label>
+        <select id="ratingSelect">
+          <option value="5">★★★★★ - Excellent Customer Service</option>
+          <option value="4">★★★★☆ - Very Good</option>
+          <option value="3">★★★☆☆ - Average</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="reviewComments">Your Feedback</label>
+        <textarea id="reviewComments" rows="4" placeholder="How was our service, speed, and staff friendliness?" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Publish Review</button>
+    </form>
+
+    <div id="formSuccessAlert" class="success-alert">
+      Thank you! Your review has been submitted and is now visible to visitors.
+    </div>
+  </div>
+</section>
+
 
         <!-- CONTACT -->
         <section id="contact">
