@@ -582,3 +582,18 @@ function escapeHtml(str) {
   tempDiv.innerText = str;
   return tempDiv.innerHTML;
 }
+
+function toggleFaq(buttonElement) {
+  const currentItem = buttonElement.parentElement;
+  const allItems = document.querySelectorAll('.faq-item');
+
+  // Close all other open FAQ items (Optional: keeps accordion clean)
+  allItems.forEach(item => {
+    if (item !== currentItem) {
+      item.classList.remove('active');
+    }
+  });
+
+  // Toggle the clicked FAQ item open/close
+  currentItem.classList.toggle('active');
+}
