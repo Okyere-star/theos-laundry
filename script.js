@@ -473,13 +473,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
 
     // Register Service Worker
-    if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-            navigator.serviceWorker.register("./service-worker.js")
-                .then(reg => console.log("Service Worker registered successfully:", reg.scope))
-                .catch(err => console.error("Service Worker registration failed:", err));
-        });
-    }
+   if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => {
+                console.log("THEOS LAUNDRY app is ready!");
+            })
+            .catch(error => {
+                console.log("Service Worker registration failed:", error);
+            });
+    });
+}
 
     // Handle BeforeInstallPrompt (Android / Chrome / Edge)
     window.addEventListener("beforeinstallprompt", (e) => {
