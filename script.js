@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // CONSTANTS & INITIAL SETUP
     // ----------------------------------------------------
     const ADMIN_PIN = "112222";
-    const WHATSAPP_PHONE = "233540807941";
+    const WHATSAPP_PHONE = "233203196238";
 
     // DOM Elements - Booking
     const bookingForm = document.getElementById("booking-form");
