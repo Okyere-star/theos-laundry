@@ -4,6 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // ----------------------------------------------------
     const ADMIN_PIN = "112222";
     const WHATSAPP_PHONE = "233203196238";
+    
+    // Supabase connection for customer bookings
+    const theosSupabase = window.supabase.createClient(
+        THEOS_SUPABASE_URL,
+        THEOS_SUPABASE_KEY
+    );
+
 
     // DOM Elements - Booking
     const bookingForm = document.getElementById("booking-form");
@@ -135,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. BOOKING FORM SUBMISSION
     // ----------------------------------------------------
     if (bookingForm) {
-        bookingForm.addEventListener("submit", function (event) {
+        bookingForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const name = document.getElementById("name").value.trim();
@@ -200,6 +207,71 @@ document.addEventListener("DOMContentLoaded", function () {
                 status: "Received"
             };
             saveOrdersToStorage(orders);
+            
+            // Save the booking to Supabase for logged-in customers.
+            // The existing localStorage and WhatsApp booking remain available.
+            try {
+                const { data: { user }, error: authError } =
+                    await theosSupabase.auth.getUser();
+
+                if (authError) {
+                    throw authError;
+                }
+
+                if (user) {
+                    const serviceDetails = [];
+
+                    quantities.forEach(function (quantity) {
+                        const amount = Number(quantity.value) || 0;
+                        const price = Number(quantity.dataset.price) || 0;
+
+                        if (amount > 0) {
+                            const label = quantity.previousElementSibling.textContent
+                                .split("(")[0]
+                                .trim();
+
+                            serviceDetails.push({
+                                name: label,
+                                quantity: amount,
+                                unit_price: price,
+                                subtotal: Number((price * amount).toFixed(2))
+                            });
+                        }
+                    });
+
+                    const { error: bookingError } = await theosSupabase
+                        .from("laundry_bookings")
+                        .insert({
+                            customer_id: user.id,
+                            booking_reference: refNumber,
+                            customer_name: name,
+                            phone: phone,
+                            service_details: serviceDetails,
+                            pickup_address: location,
+                            pickup_date: pickupDate,
+                            pickup_time: pickupTime,
+                            total_amount: Number(total.toFixed(2)),
+                            status: "Pending",
+                            notes: notes,
+                            payment_method: paymentMethod,
+                            momo_tx_id: momoTxId
+                        });
+
+                    if (bookingError) {
+                        throw bookingError;
+                    }
+
+                    console.log("Booking saved to the online account.");
+                }
+            } catch (error) {
+                console.error("Supabase booking save failed:", error);
+
+                alert(
+                    "Your booking could not be saved to your online account. " +
+                    "Your existing booking process will continue, and you can still use WhatsApp."
+                );
+            }
+
 
             // Construct WhatsApp Message
             let whatsappMsg = `*THEOS LAUNDRY - NEW BOOKING*\n`;
