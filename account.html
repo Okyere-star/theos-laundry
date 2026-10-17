@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <title>Customer Account | THEOS LAUNDRY</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #172554;
+        }
+
+        .container {
+            max-width: 440px;
+            margin: 35px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .intro {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 14px 0 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 18px;
+            border: none;
+            border-radius: 7px;
+            background: #172554;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .secondary {
+            background: #e2e8f0;
+            color: #172554;
+        }
+
+        #message {
+            margin-top: 18px;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-wrap: anywhere;
+        }
+
+        .back {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #172554;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>THEOS LAUNDRY</h1>
+        <p class="intro">Create an account or log in to manage your customer profile.</p>
+
+        <section id="accountForms">
+            <form id="registerForm">
+                <h2>Create Account</h2>
+
+                <label for="fullName">Full Name</label>
+                <input id="fullName" type="text" autocomplete="name"
+                       maxlength="100" required>
+
+                <label for="phone">Phone Number</label>
+                <input id="phone" type="tel" autocomplete="tel"
+                       maxlength="25" required>
+
+                <label for="registerEmail">Email Address</label>
+                <input id="registerEmail" type="email" autocomplete="email"
+                       required>
+
+                <label for="registerPassword">Password</label>
+                <input id="registerPassword" type="password"
+                       autocomplete="new-password" minlength="8" required>
+
+                <button id="registerButton" type="submit">Create Account</button>
+            </form>
+
+            <hr style="margin: 28px 0;">
+
+            <form id="loginForm">
+                <h2>Already Have an Account?</h2>
+
+                <label for="loginEmail">Email Address</label>
+                <input id="loginEmail" type="email" autocomplete="email"
+                       required>
+
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password"
+                       autocomplete="current-password" required>
+
+                <button id="loginButton" type="submit">Log In</button>
+            </form>
+        </section>
+
+        <section id="customerArea" hidden>
+            <h2>My Account</h2>
+            <p id="welcomeMessage"></p>
+            <p id="profileDetails"></p>
+            <button id="logoutButton" class="secondary" type="button">
+                Log Out
+            </button>
+        </section>
+
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <a class="back" href="./index.html">← Back to THEOS LAUNDRY</a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+
+    <script>
+        (function () {
+            const client = window.supabase.createClient(
+                THEOS_SUPABASE_URL,
+                THEOS_SUPABASE_KEY
+            );
+
+            const registerForm = document.getElementById("registerForm");
+            const loginForm = document.getElementById("loginForm");
+            const accountForms = document.getElementById("accountForms");
+            const customerArea = document.getElementById("customerArea");
+            const message = document.getElementById("message");
+
+            function showMessage(text) {
+                message.textContent = text;
+            }
+
+            function setBusy(form, busy) {
+                form.querySelectorAll("button").forEach(function (button) {
+                    button.disabled = busy;
+                });
+            }
+
+            async function loadCustomerAccount() {
+                const result = await client.auth.getUser();
+                const user = result.data.user;
+
+                if (!user) {
+                    accountForms.hidden = false;
+                    customerArea.hidden = true;
+                    return;
+                }
+
+                const profileResult = await client
+                    .from("customer_profiles")
+                    .select("full_name, phone")
+                    .eq("id", user.id)
+                    .maybeSingle();
+
+                if (profileResult.error) {
+                    showMessage("You are logged in, but we could not load your profile. " +
+                        profileResult.error.message);
+                    return;
+                }
+
+                if (!profileResult.data) {
+                    showMessage("Your account is active, but your profile is not available yet. " +
+                        "Please contact support before trying to register again.");
+                    return;
+                }
+
+                accountForms.hidden = true;
+                customerArea.hidden = false;
+
+                document.getElementById("welcomeMessage").textContent =
+                    "Welcome, " + (profileResult.data.full_name || "Customer") + "!";
+
+                document.getElementById("profileDetails").textContent =
+                    "Phone: " + profileResult.data.phone +
+                    " | Email: " + (user.email || "");
+            }
+
+            registerForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                setBusy(registerForm, true);
+                showMessage("Creating your account...");
+
+                try {
+                    const fullName =
+                        document.getElementById("fullName").value.trim();
+                    const phone =
+                        document.getElementById("phone").value.trim();
+                    const email =
+                        document.getElementById("registerEmail").value.trim();
+                    const password =
+                        document.getElementById("registerPassword").value;
+
+                    const signupResult = await client.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            emailRedirectTo: window.location.origin +
+                                window.location.pathname,
+                            data: {
+                                full_name: fullName,
+                                phone: phone
+                            }
+                        }
+                    });
+
+                    if (signupResult.error) {
+                        throw signupResult.error;
+                    }
+
+                    const user = signupResult.data.user;
+                    const session = signupResult.data.session;
+
+                    if (!user) {
+                        showMessage("Account creation could not be confirmed. Please try again.");
+                        return;
+                    }
+
+                    if (!session) {
+                        showMessage("Your account has been created. Check your email to confirm it, " +
+                            "then return here and log in.");
+                        return;
+                    }
+
+                    const profileResult = await client
+                        .from("customer_profiles")
+                        .upsert({
+                            id: user.id,
+                            full_name: fullName,
+                            phone: phone
+                        });
+
+                    if (profileResult.error) {
+                        throw profileResult.error;
+                    }
+
+                    showMessage("Account created successfully!");
+                    await loadCustomerAccount();
+                } catch (error) {
+                    showMessage("Error: " + error.message);
+                } finally {
+                    setBusy(registerForm, false);
+                }
+            });
+
+            loginForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                setBusy(loginForm, true);
+                showMessage("Logging in...");
+
+                try {
+                    const email =
+                        document.getElementById("loginEmail").value.trim();
+                    const password =
+                        document.getElementById("loginPassword").value;
+
+                    const result = await client.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+
+                    showMessage("Login successful!");
+                    await loadCustomerAccount();
+                } catch (error) {
+                    showMessage("Login failed: " + error.message);
+                } finally {
+                    setBusy(loginForm, false);
+                }
+            });
+
+            document.getElementById("logoutButton")
+                .addEventListener("click", async function () {
+                    const result = await client.auth.signOut();
+
+                    if (result.error) {
+                        showMessage("Could not log out: " + result.error.message);
+                        return;
+                    }
+
+                    showMessage("You have logged out.");
+                    await loadCustomerAccount();
+                });
+
+            client.auth.onAuthStateChange(function (event, session) {
+                if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+                    loadCustomerAccount();
+                }
+            });
+
+            loadCustomerAccount();
+        })();
+    </script>
+</body>
+</html>
