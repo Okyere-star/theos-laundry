@@ -952,7 +952,59 @@
                     <p>Your registered contact information.</p>
                 </div>
 
-                <div id="profileDetails" class="profile-details"></div>
+                
+<div class="account-actions" style="margin-top: 18px;">
+    <button
+        id="editProfileButton"
+        class="button button-primary"
+        type="button"
+    >
+        Edit My Profile
+    </button>
+</div>
+
+<form id="editProfileForm" hidden style="margin-top: 20px;">
+    <div class="form-group">
+        <label for="editFullName">Full Name</label>
+        <input
+            id="editFullName"
+            type="text"
+            maxlength="100"
+            autocomplete="name"
+            required
+        >
+    </div>
+
+    <div class="form-group">
+        <label for="editPhone">Phone Number</label>
+        <input
+            id="editPhone"
+            type="tel"
+            maxlength="25"
+            autocomplete="tel"
+            required
+        >
+    </div>
+
+    <div class="account-actions">
+        <button
+            id="saveProfileButton"
+            class="button button-primary"
+            type="submit"
+        >
+            Save Changes
+        </button>
+
+        <button
+            id="cancelProfileButton"
+            class="button button-secondary"
+            type="button"
+        >
+            Cancel
+        </button>
+    </div>
+</form>
+
             </section>
 
             <section class="panel history-panel">
@@ -1015,6 +1067,28 @@
             const accountForms = document.getElementById("accountForms");
             const customerArea = document.getElementById("customerArea");
             const message = document.getElementById("message");
+
+            
+const editProfileButton =
+    document.getElementById("editProfileButton");
+
+const editProfileForm =
+    document.getElementById("editProfileForm");
+
+const editFullName =
+    document.getElementById("editFullName");
+
+const editPhone =
+    document.getElementById("editPhone");
+
+const saveProfileButton =
+    document.getElementById("saveProfileButton");
+
+const cancelProfileButton =
+    document.getElementById("cancelProfileButton");
+
+let currentProfile = null;
+
 
             function showMessage(text) {
                 message.textContent = text;
@@ -1361,6 +1435,8 @@
                     return;
                 }
 
+                currentProfile = profileResult.data;
+
                 accountForms.hidden = true;
                 customerArea.hidden = false;
 
@@ -1391,6 +1467,11 @@
                     "Email address",
                     user.email || ""
                 );
+                editFullName.value = currentProfile.full_name || "";
+editPhone.value = currentProfile.phone || "";
+editProfileForm.hidden = true;
+editProfileButton.hidden = false;
+
 
                 await loadBookingHistory(user.id);
             }
@@ -1468,6 +1549,92 @@
                     setBusy(registerForm, false);
                 }
             });
+            
+editProfileButton.addEventListener("click", function () {
+    if (!currentProfile) {
+        showMessage("Your profile is not loaded yet. Please try again.");
+        return;
+    }
+
+    editFullName.value = currentProfile.full_name || "";
+    editPhone.value = currentProfile.phone || "";
+
+    editProfileForm.hidden = false;
+    editProfileButton.hidden = true;
+    showMessage("");
+});
+
+cancelProfileButton.addEventListener("click", function () {
+    editProfileForm.reset();
+    editFullName.value = currentProfile?.full_name || "";
+    editPhone.value = currentProfile?.phone || "";
+
+    editProfileForm.hidden = true;
+    editProfileButton.hidden = false;
+    showMessage("");
+});
+
+editProfileForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    if (!currentProfile) {
+        showMessage("Your profile is not loaded. Please refresh the page.");
+        return;
+    }
+
+    const fullName = editFullName.value.trim();
+    const phone = editPhone.value.trim();
+
+    if (!fullName || !phone) {
+        showMessage("Please enter your full name and phone number.");
+        return;
+    }
+
+    saveProfileButton.disabled = true;
+    cancelProfileButton.disabled = true;
+    showMessage("Saving your profile...");
+
+    try {
+        const authResult = await client.auth.getUser();
+        const user = authResult.data.user;
+
+        if (authResult.error || !user) {
+            throw new Error("Please log in again to update your profile.");
+        }
+
+        const result = await client
+            .from("customer_profiles")
+            .update({
+                full_name: fullName,
+                phone: phone
+            })
+            .eq("id", user.id)
+            .select("id")
+            .maybeSingle();
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        if (!result.data) {
+            throw new Error(
+                "No profile was updated. Please check your Supabase permissions."
+            );
+        }
+
+        showMessage("Profile updated successfully!");
+        editProfileForm.hidden = true;
+        editProfileButton.hidden = false;
+
+        await loadCustomerAccount();
+    } catch (error) {
+        showMessage("Could not update your profile: " + error.message);
+    } finally {
+        saveProfileButton.disabled = false;
+        cancelProfileButton.disabled = false;
+    }
+});
+
 
             loginForm.addEventListener("submit", async function (event) {
                 event.preventDefault();

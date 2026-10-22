@@ -1,0 +1,1527 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <meta name="description" content="Manage your THEOS LAUNDRY customer account and track your laundry bookings.">
+    <title>My Account | THEOS LAUNDRY</title>
+
+    <style>
+        :root {
+            --navy: #172554;
+            --navy-light: #243b78;
+            --sea-blue: #0891b2;
+            --sea-blue-light: #e0f7fa;
+            --background: #f4f7fb;
+            --white: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --success: #15803d;
+            --success-bg: #dcfce7;
+            --warning: #a16207;
+            --warning-bg: #fef3c7;
+            --danger: #b91c1c;
+            --danger-bg: #fee2e2;
+            --shadow: 0 12px 35px rgba(23, 37, 84, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        /* Header */
+
+        .site-header {
+            background: var(--navy);
+            color: var(--white);
+            padding: 18px 22px;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
+        }
+
+        .header-inner {
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: var(--sea-blue);
+            color: white;
+            font-size: 23px;
+            font-weight: 800;
+        }
+
+        .brand-name {
+            display: block;
+            font-size: 18px;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-tagline {
+            display: block;
+            margin-top: 3px;
+            color: #cbd5e1;
+            font-size: 12px;
+        }
+
+        .header-link {
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 9px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        .header-link:hover {
+            background: var(--navy-light);
+        }
+
+        /* Main layout */
+
+        .page-container {
+            width: 100%;
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 38px 22px 55px;
+        }
+
+        .page-heading {
+            margin-bottom: 26px;
+        }
+
+        .eyebrow {
+            margin: 0 0 7px;
+            color: var(--sea-blue);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.6px;
+            text-transform: uppercase;
+        }
+
+        .page-heading h1 {
+            margin: 0;
+            color: var(--navy);
+            font-size: clamp(27px, 4vw, 36px);
+            line-height: 1.2;
+            letter-spacing: -0.8px;
+        }
+
+        .page-heading > p:last-child {
+            max-width: 620px;
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* Cards */
+
+        .panel {
+            min-width: 0;
+            padding: 27px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel-heading {
+            margin-bottom: 20px;
+        }
+
+        .panel-heading h2 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 21px;
+            line-height: 1.35;
+        }
+
+        .panel-heading p {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Login and registration */
+
+        .auth-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            align-items: start;
+        }
+
+        .auth-panel {
+            height: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+            font-size: 15px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:focus {
+            border-color: var(--sea-blue);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.13);
+        }
+
+        .button {
+            display: inline-flex;
+            width: 100%;
+            min-height: 46px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 17px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background: var(--navy);
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .button:hover:not(:disabled) {
+            background: var(--navy-light);
+        }
+
+        .button:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        .button-primary {
+            background: var(--sea-blue);
+        }
+
+        .button-primary:hover:not(:disabled) {
+            background: #0e7490;
+        }
+
+        .button-secondary {
+            background: #eef2ff;
+            color: var(--navy);
+            border-color: #dbeafe;
+        }
+
+        .button-secondary:hover:not(:disabled) {
+            background: #e0e7ff;
+        }
+
+        .form-note {
+            margin: 15px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* Status messages */
+
+        #message {
+            margin: 22px 0 0;
+            padding: 13px 15px;
+            border: 1px solid transparent;
+            border-radius: 11px;
+            overflow-wrap: anywhere;
+            font-size: 14px;
+        }
+
+        #message:empty {
+            display: none;
+        }
+
+        #message:not(:empty) {
+            background: #eff6ff;
+            color: #1e40af;
+            border-color: #bfdbfe;
+        }
+
+        /* Customer account */
+
+        .welcome-banner {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            margin-bottom: 24px;
+            padding: 25px;
+            border-radius: 17px;
+            background: linear-gradient(120deg, #172554, #244b80);
+            color: white;
+        }
+
+        .welcome-icon {
+            flex: 0 0 55px;
+            width: 55px;
+            height: 55px;
+            display: grid;
+            place-items: center;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.14);
+            font-size: 27px;
+        }
+
+        .welcome-copy {
+            min-width: 0;
+        }
+
+        .welcome-copy .eyebrow {
+            color: #a5f3fc;
+            margin-bottom: 4px;
+        }
+
+        .welcome-copy h2 {
+            margin: 0;
+            font-size: 23px;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .welcome-copy p {
+            margin: 6px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        .profile-panel {
+            margin-bottom: 25px;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .profile-item {
+            min-width: 0;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+
+        .profile-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .profile-value {
+            display: block;
+            color: var(--navy);
+            font-size: 15px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        /* Booking history */
+
+        .history-panel {
+            margin-bottom: 24px;
+        }
+
+        .history-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 21px;
+        }
+
+        .history-heading h2 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .history-heading p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .history-icon {
+            flex: 0 0 45px;
+            width: 45px;
+            height: 45px;
+            display: grid;
+            place-items: center;
+            border-radius: 13px;
+            background: var(--sea-blue-light);
+            color: #0e7490;
+            font-size: 22px;
+        }
+
+        .empty-state {
+            padding: 32px 18px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 13px;
+            background: #f8fafc;
+            text-align: center;
+        }
+
+        .empty-icon {
+            margin-bottom: 10px;
+            font-size: 34px;
+        }
+
+        .empty-state h3 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 17px;
+        }
+
+        .empty-state p {
+            max-width: 420px;
+            margin: 8px auto 17px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .booking-card {
+            margin-bottom: 17px;
+            padding: 21px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: white;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .booking-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .booking-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 6px 20px rgba(23, 37, 84, 0.05);
+        }
+
+        .booking-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .booking-title {
+            min-width: 0;
+        }
+
+        .booking-title h3 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 17px;
+            overflow-wrap: anywhere;
+        }
+
+        .booking-date {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status-pill {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--warning-bg);
+            color: var(--warning);
+            font-size: 11px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .status-pill.is-success {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .status-pill.is-danger {
+            background: var(--danger-bg);
+            color: var(--danger);
+        }
+
+        .booking-services {
+            margin: 16px 0;
+        }
+
+        .booking-services h4 {
+            margin: 0 0 9px;
+            color: #334155;
+            font-size: 13px;
+        }
+
+        .service-list {
+            display: grid;
+            gap: 7px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 9px 11px;
+            border-radius: 8px;
+            background: #f8fafc;
+            font-size: 13px;
+        }
+
+        .service-name {
+            color: #334155;
+            overflow-wrap: anywhere;
+        }
+
+        .service-price {
+            flex-shrink: 0;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 17px;
+        }
+
+        .booking-detail {
+            min-width: 0;
+        }
+
+        .booking-detail-label {
+            display: block;
+            margin-bottom: 3px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .booking-detail-value {
+            display: block;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .booking-total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .booking-total span {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .booking-total strong {
+            color: var(--navy);
+            font-size: 22px;
+        }
+
+        .account-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .account-actions .button {
+            width: auto;
+            min-width: 155px;
+        }
+
+        /* Footer */
+
+        .site-footer {
+            padding: 22px;
+            background: white;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .site-footer p {
+            margin: 4px 0;
+        }
+
+        .site-footer a {
+            color: var(--navy);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive design */
+
+        @media (max-width: 760px) {
+            .page-container {
+                padding: 28px 16px 40px;
+            }
+
+            .auth-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .panel {
+                padding: 21px;
+                border-radius: 15px;
+            }
+
+            .welcome-banner {
+                padding: 20px;
+            }
+
+            .profile-details {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header {
+                padding: 14px;
+            }
+
+            .brand {
+                gap: 9px;
+            }
+
+            .brand-mark {
+                width: 38px;
+                height: 38px;
+                border-radius: 11px;
+                font-size: 20px;
+            }
+
+            .brand-name {
+                font-size: 15px;
+            }
+
+            .brand-tagline {
+                font-size: 10px;
+            }
+
+            .header-link {
+                padding: 8px 10px;
+                font-size: 12px;
+                white-space: nowrap;
+            }
+
+            .page-heading h1 {
+                font-size: 28px;
+            }
+
+            .panel {
+                padding: 18px;
+            }
+
+            .welcome-banner {
+                align-items: flex-start;
+                gap: 12px;
+                padding: 17px;
+            }
+
+            .welcome-icon {
+                flex-basis: 43px;
+                width: 43px;
+                height: 43px;
+                border-radius: 12px;
+                font-size: 22px;
+            }
+
+            .welcome-copy h2 {
+                font-size: 19px;
+            }
+
+            .history-heading h2 {
+                font-size: 19px;
+            }
+
+            .booking-card {
+                padding: 15px;
+            }
+
+            .booking-top {
+                flex-direction: column;
+            }
+
+            .status-pill {
+                align-self: flex-start;
+            }
+
+            .booking-details {
+                gap: 13px 10px;
+            }
+
+            .booking-total strong {
+                font-size: 20px;
+            }
+
+            .account-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .account-actions .button {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="./index.html" aria-label="THEOS LAUNDRY home">
+                <span class="brand-mark" aria-hidden="true">T</span>
+                <span>
+                    <span class="brand-name">THEOS LAUNDRY</span>
+                    <span class="brand-tagline">Fresh Clothes. More Time for You.</span>
+                </span>
+            </a>
+
+            <a class="header-link" href="./index.html">← Main Website</a>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <div class="page-heading">
+            <p class="eyebrow">Customer Portal</p>
+            <h1>Your Laundry Account</h1>
+            <p>
+                Manage your profile, review your bookings, and keep track
+                of your laundry orders in one place.
+            </p>
+        </div>
+
+        <section id="accountForms" class="auth-grid">
+            <div class="panel auth-panel">
+                <div class="panel-heading">
+                    <h2>Create Your Account</h2>
+                    <p>
+                        Join THEOS LAUNDRY to keep your customer details
+                        and view your online booking history.
+                    </p>
+                </div>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input
+                            id="fullName"
+                            type="text"
+                            autocomplete="name"
+                            maxlength="100"
+                            placeholder="Enter your full name"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input
+                            id="phone"
+                            type="tel"
+                            autocomplete="tel"
+                            maxlength="25"
+                            placeholder="e.g. 0240000000"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input
+                            id="registerEmail"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registerPassword">Create Password</label>
+                        <input
+                            id="registerPassword"
+                            type="password"
+                            autocomplete="new-password"
+                            minlength="8"
+                            placeholder="At least 8 characters"
+                            required
+                        >
+                    </div>
+
+                    <button
+                        id="registerButton"
+                        class="button button-primary"
+                        type="submit"
+                    >
+                        Create Account
+                    </button>
+
+                    <p class="form-note">
+                        You may need to confirm your email before logging in.
+                    </p>
+                </form>
+            </div>
+
+            <div class="panel auth-panel">
+                <div class="panel-heading">
+                    <h2>Welcome Back</h2>
+                    <p>
+                        Already have a THEOS LAUNDRY account?
+                        Log in to view your profile and bookings.
+                    </p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input
+                            id="loginEmail"
+                            type="email"
+                            autocomplete="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input
+                            id="loginPassword"
+                            type="password"
+                            autocomplete="current-password"
+                            placeholder="Enter your password"
+                            required
+                        >
+                    </div>
+
+                    <button
+                        id="loginButton"
+                        class="button"
+                        type="submit"
+                    >
+                        Log In to My Account
+                    </button>
+
+                    <p class="form-note">
+                        Your account details and booking history are
+                        available after you log in.
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <section id="customerArea" hidden>
+            <div class="welcome-banner">
+                <div class="welcome-icon" aria-hidden="true">✓</div>
+                <div class="welcome-copy">
+                    <p class="eyebrow">Account Overview</p>
+                    <h2 id="welcomeMessage">Welcome!</h2>
+                    <p>Your THEOS LAUNDRY customer account is ready.</p>
+                </div>
+            </div>
+
+            <section class="panel profile-panel">
+                <div class="panel-heading">
+                    <h2>My Profile</h2>
+                    <p>Your registered contact information.</p>
+                </div>
+
+                <div id="profileDetails" class="profile-details"></div>
+            </section>
+
+            <section class="panel history-panel">
+                <div class="history-heading">
+                    <div>
+                        <h2>My Booking History</h2>
+                        <p>
+                            View your laundry bookings, pickup details,
+                            and current order status.
+                        </p>
+                    </div>
+                    <div class="history-icon" aria-hidden="true">▤</div>
+                </div>
+
+                <div id="bookingHistory" aria-live="polite">
+                    <div class="empty-state">
+                        <div class="empty-icon" aria-hidden="true">🧺</div>
+                        <h3>Loading your bookings</h3>
+                        <p>Please wait while we retrieve your booking history.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="account-actions">
+                <a class="button button-primary" href="./index.html#booking">
+                    + Book Laundry
+                </a>
+
+                <button
+                    id="logoutButton"
+                    class="button button-secondary"
+                    type="button"
+                >
+                    Log Out
+                </button>
+            </div>
+        </section>
+
+        <p id="message" role="status" aria-live="polite"></p>
+    </main>
+
+    <footer class="site-footer">
+        <p><strong>THEOS LAUNDRY</strong> · Fresh Clothes. More Time for You.</p>
+        <p>Need assistance? <a href="./index.html#contact">Contact us</a>.</p>
+        <p>© 2026 THEOS LAUNDRY. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+
+    <script>
+        (function () {
+            const client = window.supabase.createClient(
+                THEOS_SUPABASE_URL,
+                THEOS_SUPABASE_KEY
+            );
+
+            const registerForm = document.getElementById("registerForm");
+            const loginForm = document.getElementById("loginForm");
+            const accountForms = document.getElementById("accountForms");
+            const customerArea = document.getElementById("customerArea");
+            const message = document.getElementById("message");
+
+            function showMessage(text) {
+                message.textContent = text;
+            }
+
+            function setBusy(form, busy) {
+                form.querySelectorAll("button").forEach(function (button) {
+                    button.disabled = busy;
+                });
+            }
+
+            function addProfileItem(container, label, value) {
+                const item = document.createElement("div");
+                item.className = "profile-item";
+
+                const labelElement = document.createElement("span");
+                labelElement.className = "profile-label";
+                labelElement.textContent = label;
+
+                const valueElement = document.createElement("span");
+                valueElement.className = "profile-value";
+                valueElement.textContent = value || "Not provided";
+
+                item.appendChild(labelElement);
+                item.appendChild(valueElement);
+                container.appendChild(item);
+            }
+
+            function addBookingDetail(container, label, value) {
+                const item = document.createElement("div");
+                item.className = "booking-detail";
+
+                const labelElement = document.createElement("span");
+                labelElement.className = "booking-detail-label";
+                labelElement.textContent = label;
+
+                const valueElement = document.createElement("span");
+                valueElement.className = "booking-detail-value";
+                valueElement.textContent = value || "Not specified";
+
+                item.appendChild(labelElement);
+                item.appendChild(valueElement);
+                container.appendChild(item);
+            }
+
+            function formatDate(value) {
+                if (!value) {
+                    return "Not specified";
+                }
+
+                const date = new Date(value + "T00:00:00");
+
+                if (Number.isNaN(date.getTime())) {
+                    return value;
+                }
+
+                return date.toLocaleDateString(undefined, {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                });
+            }
+
+            function formatStatus(status) {
+                const normalized = String(status || "").toLowerCase();
+
+                if (
+                    normalized === "delivered" ||
+                    normalized === "completed"
+                ) {
+                    return "is-success";
+                }
+
+                if (
+                    normalized === "cancelled" ||
+                    normalized === "canceled"
+                ) {
+                    return "is-danger";
+                }
+
+                return "";
+            }
+
+            async function loadBookingHistory(userId) {
+                const history = document.getElementById("bookingHistory");
+                history.replaceChildren();
+
+                const loading = document.createElement("div");
+                loading.className = "empty-state";
+
+                const loadingTitle = document.createElement("h3");
+                loadingTitle.textContent = "Loading your bookings";
+
+                const loadingText = document.createElement("p");
+                loadingText.textContent =
+                    "Please wait while we retrieve your booking history.";
+
+                loading.appendChild(loadingTitle);
+                loading.appendChild(loadingText);
+                history.appendChild(loading);
+
+                const result = await client
+                    .from("laundry_bookings")
+                    .select("*")
+                    .eq("customer_id", userId)
+                    .order("created_at", { ascending: false });
+
+                history.replaceChildren();
+
+                if (result.error) {
+                    const errorState = document.createElement("div");
+                    errorState.className = "empty-state";
+
+                    const errorTitle = document.createElement("h3");
+                    errorTitle.textContent = "Unable to load bookings";
+
+                    const errorText = document.createElement("p");
+                    errorText.textContent =
+                        "We couldn't retrieve your booking history. Please refresh the page and try again.";
+
+                    errorState.appendChild(errorTitle);
+                    errorState.appendChild(errorText);
+                    history.appendChild(errorState);
+
+                    console.error("Booking history error:", result.error);
+                    return;
+                }
+
+                if (!result.data || result.data.length === 0) {
+                    const emptyState = document.createElement("div");
+                    emptyState.className = "empty-state";
+
+                    const icon = document.createElement("div");
+                    icon.className = "empty-icon";
+                    icon.setAttribute("aria-hidden", "true");
+                    icon.textContent = "🧺";
+
+                    const heading = document.createElement("h3");
+                    heading.textContent = "No bookings yet";
+
+                    const description = document.createElement("p");
+                    description.textContent =
+                        "Your online bookings will appear here once you book a laundry service while logged in.";
+
+                    const bookingLink = document.createElement("a");
+                    bookingLink.className = "button button-primary";
+                    bookingLink.href = "./index.html#booking";
+                    bookingLink.textContent = "Book Your Laundry";
+                    bookingLink.style.maxWidth = "220px";
+                    bookingLink.style.margin = "0 auto";
+
+                    emptyState.appendChild(icon);
+                    emptyState.appendChild(heading);
+                    emptyState.appendChild(description);
+                    emptyState.appendChild(bookingLink);
+                    history.appendChild(emptyState);
+                    return;
+                }
+
+                result.data.forEach(function (booking) {
+                    const card = document.createElement("article");
+                    card.className = "booking-card";
+
+                    const top = document.createElement("div");
+                    top.className = "booking-top";
+
+                    const titleArea = document.createElement("div");
+                    titleArea.className = "booking-title";
+
+                    const heading = document.createElement("h3");
+                    heading.textContent =
+                        booking.booking_reference ||
+                        ("Booking #" + String(booking.id).slice(0, 8));
+
+                    const bookedDate = document.createElement("p");
+                    bookedDate.className = "booking-date";
+
+                    const createdAt = booking.created_at
+                        ? new Date(booking.created_at)
+                        : null;
+
+                    bookedDate.textContent =
+                        createdAt && !Number.isNaN(createdAt.getTime())
+                            ? "Booked on " + createdAt.toLocaleDateString(
+                                undefined,
+                                {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric"
+                                }
+                            )
+                            : "Booking date unavailable";
+
+                    titleArea.appendChild(heading);
+                    titleArea.appendChild(bookedDate);
+
+                    const status = document.createElement("span");
+                    status.className =
+                        "status-pill " + formatStatus(booking.status);
+                    status.textContent = booking.status || "Pending";
+
+                    top.appendChild(titleArea);
+                    top.appendChild(status);
+                    card.appendChild(top);
+
+                    const servicesSection = document.createElement("div");
+                    servicesSection.className = "booking-services";
+
+                    const servicesHeading = document.createElement("h4");
+                    servicesHeading.textContent = "Services ordered";
+                    servicesSection.appendChild(servicesHeading);
+
+                    const servicesList = document.createElement("ul");
+                    servicesList.className = "service-list";
+
+                    let services = booking.service_details;
+
+                    if (typeof services === "string") {
+                        try {
+                            services = JSON.parse(services);
+                        } catch (error) {
+                            services = [];
+                        }
+                    }
+
+                    if (Array.isArray(services) && services.length > 0) {
+                        services.forEach(function (service) {
+                            const item = document.createElement("li");
+                            item.className = "service-item";
+
+                            const serviceName = document.createElement("span");
+                            serviceName.className = "service-name";
+
+                            const quantity = Number(service.quantity) || 0;
+                            serviceName.textContent =
+                                (service.name || "Laundry service") +
+                                (quantity > 0 ? " × " + quantity : "");
+
+                            const price = document.createElement("span");
+                            price.className = "service-price";
+
+                            const subtotal = Number(service.subtotal);
+                            price.textContent = Number.isFinite(subtotal)
+                                ? "GH₵ " + subtotal.toFixed(2)
+                                : "";
+
+                            item.appendChild(serviceName);
+                            item.appendChild(price);
+                            servicesList.appendChild(item);
+                        });
+                    } else {
+                        const item = document.createElement("li");
+                        item.className = "service-item";
+                        item.textContent = "Service details unavailable";
+                        servicesList.appendChild(item);
+                    }
+
+                    servicesSection.appendChild(servicesList);
+                    card.appendChild(servicesSection);
+
+                    const details = document.createElement("div");
+                    details.className = "booking-details";
+
+                    addBookingDetail(
+                        details,
+                        "Pickup address",
+                        booking.pickup_address
+                    );
+
+                    addBookingDetail(
+                        details,
+                        "Pickup date",
+                        formatDate(booking.pickup_date)
+                    );
+
+                    addBookingDetail(
+                        details,
+                        "Pickup time",
+                        booking.pickup_time
+                    );
+
+                    addBookingDetail(
+                        details,
+                        "Payment method",
+                        booking.payment_method
+                    );
+
+                    if (booking.notes) {
+                        addBookingDetail(
+                            details,
+                            "Instructions",
+                            booking.notes
+                        );
+                    }
+
+                    card.appendChild(details);
+
+                    const total = document.createElement("div");
+                    total.className = "booking-total";
+
+                    const totalLabel = document.createElement("span");
+                    totalLabel.textContent = "Booking total";
+
+                    const totalAmount = document.createElement("strong");
+                    totalAmount.textContent =
+                        "GH₵ " + Number(booking.total_amount || 0).toFixed(2);
+
+                    total.appendChild(totalLabel);
+                    total.appendChild(totalAmount);
+                    card.appendChild(total);
+
+                    history.appendChild(card);
+                });
+            }
+
+            async function loadCustomerAccount() {
+                const result = await client.auth.getUser();
+                const user = result.data.user;
+
+                if (!user) {
+                    accountForms.hidden = false;
+                    customerArea.hidden = true;
+                    return;
+                }
+
+                const profileResult = await client
+                    .from("customer_profiles")
+                    .select("full_name, phone")
+                    .eq("id", user.id)
+                    .maybeSingle();
+
+                if (profileResult.error) {
+                    showMessage(
+                        "You are logged in, but we could not load your profile. Please try refreshing the page."
+                    );
+                    console.error("Profile loading error:", profileResult.error);
+                    return;
+                }
+
+                if (!profileResult.data) {
+                    showMessage(
+                        "Your account is active, but your profile is not available yet. Please contact support."
+                    );
+                    return;
+                }
+
+                accountForms.hidden = true;
+                customerArea.hidden = false;
+
+                document.getElementById("welcomeMessage").textContent =
+                    "Welcome, " +
+                    (profileResult.data.full_name || "Customer") +
+                    "!";
+
+                const profileDetails =
+                    document.getElementById("profileDetails");
+
+                profileDetails.replaceChildren();
+
+                addProfileItem(
+                    profileDetails,
+                    "Full name",
+                    profileResult.data.full_name
+                );
+
+                addProfileItem(
+                    profileDetails,
+                    "Phone number",
+                    profileResult.data.phone
+                );
+
+                addProfileItem(
+                    profileDetails,
+                    "Email address",
+                    user.email || ""
+                );
+
+                await loadBookingHistory(user.id);
+            }
+
+            registerForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                setBusy(registerForm, true);
+                showMessage("Creating your account...");
+
+                try {
+                    const fullName =
+                        document.getElementById("fullName").value.trim();
+
+                    const phone =
+                        document.getElementById("phone").value.trim();
+
+                    const email =
+                        document.getElementById("registerEmail").value.trim();
+
+                    const password =
+                        document.getElementById("registerPassword").value;
+
+                    const signupResult = await client.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            emailRedirectTo:
+                                window.location.origin +
+                                window.location.pathname,
+                            data: {
+                                full_name: fullName,
+                                phone: phone
+                            }
+                        }
+                    });
+
+                    if (signupResult.error) {
+                        throw signupResult.error;
+                    }
+
+                    const user = signupResult.data.user;
+                    const session = signupResult.data.session;
+
+                    if (!user) {
+                        showMessage(
+                            "Account creation could not be confirmed. Please try again."
+                        );
+                        return;
+                    }
+
+                    if (!session) {
+                        showMessage(
+                            "Your account has been created. Check your email to confirm it, then return here and log in."
+                        );
+                        return;
+                    }
+
+                    const profileResult = await client
+                        .from("customer_profiles")
+                        .upsert({
+                            id: user.id,
+                            full_name: fullName,
+                            phone: phone
+                        });
+
+                    if (profileResult.error) {
+                        throw profileResult.error;
+                    }
+
+                    showMessage("Account created successfully!");
+                    await loadCustomerAccount();
+                } catch (error) {
+                    showMessage("Error: " + error.message);
+                } finally {
+                    setBusy(registerForm, false);
+                }
+            });
+
+            loginForm.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                setBusy(loginForm, true);
+                showMessage("Logging in...");
+
+                try {
+                    const email =
+                        document.getElementById("loginEmail").value.trim();
+
+                    const password =
+                        document.getElementById("loginPassword").value;
+
+                    const result = await client.auth.signInWithPassword({
+                        email: email,
+                        password: password
+                    });
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+
+                    showMessage("Login successful!");
+                    await loadCustomerAccount();
+                } catch (error) {
+                    showMessage("Login failed: " + error.message);
+                } finally {
+                    setBusy(loginForm, false);
+                }
+            });
+
+            document.getElementById("logoutButton")
+                .addEventListener("click", async function () {
+                    const result = await client.auth.signOut();
+
+                    if (result.error) {
+                        showMessage(
+                            "Could not log out: " + result.error.message
+                        );
+                        return;
+                    }
+
+                    showMessage("You have logged out.");
+                    await loadCustomerAccount();
+                });
+
+            client.auth.onAuthStateChange(function (event, session) {
+                if (event === "SIGNED_IN" || event === "SIGNED_OUT") {
+                    loadCustomerAccount();
+                }
+            });
+
+            loadCustomerAccount();
+        })();
+    </script>
+</body>
+</html>
