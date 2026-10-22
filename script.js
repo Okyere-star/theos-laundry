@@ -132,11 +132,96 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Attach Price Listener to Quantity Inputs
-    quantities.forEach(function (quantity) {
-        quantity.addEventListener("input", calculateTotal);
-    });
-    calculateTotal();
+    
+ // Attach Price Listener to Quantity Inputs
+quantities.forEach(function (quantity) {
+    quantity.addEventListener("input", calculateTotal);
+});
+
+calculateTotal();
+
+// Restore services from a previous booking
+function applyRebookingData() {
+    const savedData = sessionStorage.getItem("theos_rebook_data");
+
+    if (!savedData) {
+        return;
+    }
+
+    // Remove the saved data so it is not reused on later visits.
+    sessionStorage.removeItem("theos_rebook_data");
+
+    try {
+        const data = JSON.parse(savedData);
+
+        // Clear quantities before applying the previous order.
+        quantities.forEach(function (quantity) {
+            quantity.value = 0;
+        });
+
+        (data.services || []).forEach(function (service) {
+            const serviceName = String(service.name || "")
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, " ");
+
+            const matchingInput = Array.from(quantities).find(
+                function (quantity) {
+                    const label = quantity.previousElementSibling;
+
+                    if (!label) {
+                        return false;
+                    }
+
+                    const labelName = label.textContent
+                        .split("(")[0]
+                        .trim()
+                        .toLowerCase()
+                        .replace(/\s+/g, " ");
+
+                    return labelName === serviceName;
+                }
+            );
+
+            if (matchingInput) {
+                matchingInput.value = Math.max(
+                    0,
+                    Math.floor(Number(service.quantity) || 0)
+                );
+            }
+        });
+
+        // Restore customer details, but not the old pickup date or time.
+        const locationInput = document.getElementById("location");
+        const nameInput = document.getElementById("name");
+        const phoneInput = document.getElementById("phone");
+
+        if (locationInput && data.pickup_address) {
+            locationInput.value = data.pickup_address;
+        }
+
+        if (nameInput && data.customer_name) {
+            nameInput.value = data.customer_name;
+        }
+
+        if (phoneInput && data.phone) {
+            phoneInput.value = data.phone;
+        }
+
+        calculateTotal();
+
+        if (bookingForm) {
+            bookingForm.scrollIntoView({ behavior: "smooth" });
+        }
+
+    } catch (error) {
+        console.error("Could not restore previous booking:", error);
+        alert("We could not load the previous booking. Please select your services again.");
+    }
+}
+
+applyRebookingData();
+
 
     // ----------------------------------------------------
     // 2. BOOKING FORM SUBMISSION

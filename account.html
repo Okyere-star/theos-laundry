@@ -1398,9 +1398,64 @@ let currentProfile = null;
 
                     total.appendChild(totalLabel);
                     total.appendChild(totalAmount);
-                    card.appendChild(total);
+                    
+card.appendChild(total);
 
-                    history.appendChild(card);
+// Book the same services again
+const rebookButton = document.createElement("button");
+
+rebookButton.type = "button";
+rebookButton.className = "button button-primary";
+rebookButton.textContent = "Book These Services Again";
+rebookButton.style.marginTop = "16px";
+
+rebookButton.addEventListener("click", function () {
+    let services = booking.service_details;
+
+    if (typeof services === "string") {
+        try {
+            services = JSON.parse(services);
+        } catch (error) {
+            services = [];
+        }
+    }
+
+    if (!Array.isArray(services) || services.length === 0) {
+        alert("The services for this booking are unavailable.");
+        return;
+    }
+
+    const rebookData = {
+        services: services.map(function (service) {
+            return {
+                name: String(service.name || ""),
+                quantity: Number(service.quantity) || 0
+            };
+        }).filter(function (service) {
+            return service.name && service.quantity > 0;
+        }),
+        pickup_address: booking.pickup_address || "",
+        customer_name: booking.customer_name || "",
+        phone: booking.phone || ""
+    };
+
+    if (rebookData.services.length === 0) {
+        alert("No reusable services were found in this booking.");
+        return;
+    }
+
+    sessionStorage.setItem(
+        "theos_rebook_data",
+        JSON.stringify(rebookData)
+    );
+
+    window.location.href = "index.html#booking";
+});
+
+card.appendChild(rebookButton);
+
+history.appendChild(card);
+
                 });
             }
 
